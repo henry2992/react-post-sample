@@ -9,22 +9,21 @@ const api = {
       const data = await response.json();
       return data;
     },
-    async postBlogs() {
-      const response = await fetch(`${baseUrl}/blogs`);
-
-      fetch(`${baseUrl}/blogs`, {
+    async postBlogs(data) {
+      const response = await fetch(`${baseUrl}/blogs`, {
         method: 'POST',
         headers: {
-          'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          firstParam: 'yourValue',
-          secondParam: 'yourOtherValue',
-        }),
+        body: data,
       });
-      const data = await response.json();
-      return data;
+    },
+    async deleteBlogs(id) {
+      fetch(`${baseUrl}/blogs/${id}`, {
+        method: 'DELETE',
+      }).then(function (res) {
+        return res.status;
+      });
     },
   },
 };

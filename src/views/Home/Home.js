@@ -30,7 +30,18 @@ class Home extends Component {
     });
   }
 
+  handleDelete(id) {
+    alert(id);
+    const response = api.blogs.deleteBlogs(id);
+    console.log(response.status);
+
+    if (response.status === 'resolved') {
+      alert('heyyy')
+    }
+  }
+
   render() {
+    console.log(this.state.blogs);
     return (
       <article >
         <h1>Estos son los Posts</h1>
@@ -39,7 +50,12 @@ class Home extends Component {
           <p>Loading...</p>
         )}
         {this.state.blogs
-          .map(post => <Post key={post.id} {...post} />)
+          .map(post =>
+            <Post
+              {...post}
+              key={post.id}
+              handleDelete={this.handleDelete.bind(this, post.id)}
+            />)
         }
       </article>
     );

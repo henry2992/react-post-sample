@@ -22,14 +22,30 @@ class Post extends Component {
     });
   }
 
-  handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.value);
+  handleSubmit(e) {
+    e.preventDefault();
+    const data = JSON.stringify({
+      title: this.state.title,
+      content: this.state.content,
+    });
 
-    // this.setState = {
-    //   title: this.
-    // }
-    api.blogs.postBlogs();
-    event.preventDefault();
+    return fetch('http://localhost:3002/blogs', {
+      method: 'POST',
+      body: data,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then(this.handleRedirect);
+
+    // api.blogs.postBlogs(data);
+  }
+
+  handleRedirect(res) {
+    if (res.status === 201) {
+      window.location.href = 'http://localhost:3000';
+    } else {
+      alert('Error Creating Post');
+    }
   }
 
   render() {
@@ -53,7 +69,7 @@ class Post extends Component {
             onChange={this.handleChange}
           />
         </label>
-       <input type="submit" value="Submit" />
+        <input type="submit" value="Submit" />
       </form>
     );
   }
